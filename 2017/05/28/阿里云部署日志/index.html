@@ -1,0 +1,717 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="阿里云部署项目（jdk+mysql+tomcat） 实例ID:i-2zed3slgp17r6mv0a27o公网IP：47.94.9.151内网IP：172.17.176.220版本：Java运行环境（Centos7 64 | JDK8|Tomcat8） 因为购买的是拥有java运行环境的版本。磁盘预装了jdk8、tomcat8。后来发现里面还装好了mysql 但是有问题不能使用。下面会修改配置。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="阿里云部署项目">
+<meta property="og:url" content="http://yoursite.com/2017/05/28/阿里云部署日志/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="阿里云部署项目（jdk+mysql+tomcat） 实例ID:i-2zed3slgp17r6mv0a27o公网IP：47.94.9.151内网IP：172.17.176.220版本：Java运行环境（Centos7 64 | JDK8|Tomcat8） 因为购买的是拥有java运行环境的版本。磁盘预装了jdk8、tomcat8。后来发现里面还装好了mysql 但是有问题不能使用。下面会修改配置。">
+<meta property="og:updated_time" content="2017-05-28T09:22:04.096Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="阿里云部署项目">
+<meta name="twitter:description" content="阿里云部署项目（jdk+mysql+tomcat） 实例ID:i-2zed3slgp17r6mv0a27o公网IP：47.94.9.151内网IP：172.17.176.220版本：Java运行环境（Centos7 64 | JDK8|Tomcat8） 因为购买的是拥有java运行环境的版本。磁盘预装了jdk8、tomcat8。后来发现里面还装好了mysql 但是有问题不能使用。下面会修改配置。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/28/阿里云部署日志/"/>
+
+
+
+
+
+  <title>阿里云部署项目 | Hexo</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/28/阿里云部署日志/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xjw">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">阿里云部署项目</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-28T16:32:19+08:00">
+                2017-05-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="阿里云部署项目（jdk-mysql-tomcat）"><a href="#阿里云部署项目（jdk-mysql-tomcat）" class="headerlink" title="阿里云部署项目（jdk+mysql+tomcat）"></a>阿里云部署项目（jdk+mysql+tomcat）</h1><blockquote>
+<p>实例ID:i-2zed3slgp17r6mv0a27o<br>公网IP：47.94.9.151<br>内网IP：172.17.176.220<br>版本：Java运行环境（Centos7 64 | JDK8|Tomcat8）</p>
+<p>因为购买的是拥有java运行环境的版本。磁盘预装了jdk8、tomcat8。后来发现里面还装好了mysql 但是有问题不能使用。下面会修改配置。 </p>
+<p>jdk8根目录：/user/java/jdk1.8.0_111/..<br>tomcat8根目录：/home/tomcat/apache-tomcat-8.5.8/..<br>mysql根目录： 没找到。。。</p>
+<ul>
+<li><h2 id="安装AppNode"><a href="#安装AppNode" class="headerlink" title="安装AppNode"></a>安装AppNode</h2><p>参照 ：++<a href="https://www.appnode.com/install++" target="_blank" rel="external">https://www.appnode.com/install++</a><br>可视化、简易高效、操作透明、高可扩展的 Linux 服务器集群管理面板。<br>用面板，主要用文件管理、上传下载功能。省去配置ftp的麻烦。</p>
+<blockquote>
+<p>问题：安装后无法进入面板（上述安装端口号设置为5555）<br>解决：修改阿里云ECS安全组规则（入方向）  </p>
+<blockquote>
+<p>添加安全组规则<br>设置协议类型：自定义TCP<br>设置端口范围：5555/5555（相应的端口号）<br>设置授权对象：0.0.0.0/0</p>
+</blockquote>
+</blockquote>
+</li>
+<li><h2 id="登录AppNode面板"><a href="#登录AppNode面板" class="headerlink" title="登录AppNode面板"></a>登录AppNode面板</h2><p>节点列表中，安装受控端</p>
+</li>
+<li><h2 id="修改mysql密码"><a href="#修改mysql密码" class="headerlink" title="修改mysql密码"></a>修改mysql密码</h2><blockquote>
+<p>1、编辑 MySQL 配置文件 my.cnf(以实际 my.cnf 配置文件路径为准)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;vim /etc/my.cnf[mysqld]skip-grant-tables  #增加</div><div class="line">&gt;&gt;</div></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>2、重启 MySQL 服务(以实际启动脚本位置为准)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;/etc/init.d/mysqld restart</div><div class="line">&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p>3、登录数据库<br>/usr/bin/mysql 输入如下命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;UPDATE user SET authentication_string = password (&apos;root&apos;) WHERE User = &apos;root&apos; ;</div><div class="line">&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p>4、删除或者注释第一步骤中添加的 spip-grant-tables<br>5、重启 MySQL 服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;/etc/init.d/mysqld restart</div><div class="line">&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p>6、使用新密码测试</p>
+</blockquote>
+<ul>
+<li><h2 id="导入项目sql文件"><a href="#导入项目sql文件" class="headerlink" title="导入项目sql文件"></a>导入项目sql文件</h2><blockquote>
+<p>1、把本地的sql文件上传到服务器上。利用AppNode上传功能很方便。记着上传路径。<br>2、首先建空数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;mysql&gt;create database abc;</div><div class="line">&gt;&gt;</div></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>3、导入数据库<br>方法一(我用的，亲测可用)：<br>（1）选择数据库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;mysql&gt;use abc;  </div><div class="line">&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p>（2）设置数据库编码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;mysql&gt;set names utf8;  </div><div class="line">&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p>（3）导入数据（注意sql文件的路径）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;mysql&gt;source /home/abc/abc.sql; </div><div class="line">&gt;&gt;# /home/abc/abc.sql是上传的sql文件</div><div class="line">&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p>方法二(没用过，网上说可以)：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;mysql -u用户名 -p密码 数据库名 &lt; 数据库名.sql</div><div class="line">&gt;&gt;#mysql -uabc_f -p abc &lt; abc.sql</div><div class="line">&gt;&gt;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<ul>
+<li><h2 id="启动tomcat"><a href="#启动tomcat" class="headerlink" title="启动tomcat"></a>启动tomcat</h2><blockquote>
+<p>1、进入Tomcat下的bin目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;cd //home/tomcat/apache-tomcat-8.5.8/bin</div><div class="line">&gt;&gt;</div></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>2、使用Tomcat关闭命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;./shutdown.sh</div><div class="line">&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p>3、查看Tomcat是否以关闭<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;ps -ef|grep java</div><div class="line">&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p>4、如果显示以下相似信息，说明Tomcat还没有关闭</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;root      7010     1  0 Apr19 ?        00:30:13 /usr/local/java/bin/java </div><div class="line">&gt;&gt;-Djava.util.logging.config.file=/usr/local/tomcat/conf/logging.properties </div><div class="line">&gt;&gt;-Djava.awt.headless=true </div><div class="line">&gt;&gt;-Dfile.encoding=UTF-8 -server -Xms1024m -Xmx1024m </div><div class="line">&gt;&gt;-XX:NewSize=256m -XX:MaxNewSize=256m -XX:PermSize=256m -XX:MaxPermSize=256m </div><div class="line">&gt;&gt;-XX:+DisableExplicitGC  -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager </div><div class="line">&gt;&gt;-Djava.endorsed.dirs=/usr/local/tomcat/endorsed </div><div class="line">&gt;&gt;-classpath /usr/local/tomcat/bin/bootstrap.jar </div><div class="line">&gt;&gt;-Dcatalina.base=/usr/local/tomcat </div><div class="line">&gt;&gt;-Dcatalina.home=/usr/local/tomcat </div><div class="line">&gt;&gt;-Djava.io.tmpdir=/usr/local/tomcat/temp org.apache.catalina.startup.Bootstrap start</div><div class="line">&gt;&gt;</div></pre></td></tr></table></figure>
+<p>5、如果你想直接干掉Tomcat，你可以使用kill命令，直接杀死Tomcat进程<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt; kill -9 7010</div><div class="line">&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p>6、然后继续查看Tomcat是否关闭<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt; ps -ef|grep java</div><div class="line">&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p>7、如果出现以下信息，则表示Tomcat已经关闭<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;root      7010     1  0 Apr19 ?        00:30:30 [java] &lt;defunct&gt;</div><div class="line">&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p>8、最后，启动Tomcat<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;./startup.sh </div><div class="line">&gt;&gt;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<ul>
+<li><h2 id="上传war包"><a href="#上传war包" class="headerlink" title="上传war包"></a>上传war包</h2>把自己的项目打包为war<br>上传到tomcat/webapps/下</li>
+</ul>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/28/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="xjw" />
+          <p class="site-author-name" itemprop="name">xjw</p>
+           
+              <p class="site-description motion-element" itemprop="description">r94hh</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#阿里云部署项目（jdk-mysql-tomcat）"><span class="nav-number">1.</span> <span class="nav-text">阿里云部署项目（jdk+mysql+tomcat）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装AppNode"><span class="nav-number">1.1.</span> <span class="nav-text">安装AppNode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#登录AppNode面板"><span class="nav-number">1.2.</span> <span class="nav-text">登录AppNode面板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改mysql密码"><span class="nav-number">1.3.</span> <span class="nav-text">修改mysql密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导入项目sql文件"><span class="nav-number">1.4.</span> <span class="nav-text">导入项目sql文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动tomcat"><span class="nav-number">1.5.</span> <span class="nav-text">启动tomcat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#上传war包"><span class="nav-number">1.6.</span> <span class="nav-text">上传war包</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xjw</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
